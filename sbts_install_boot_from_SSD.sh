@@ -333,32 +333,9 @@ setup_sbts_bin() {
     chown root:root "$SBTS_SBIN" || abort "Can't chown root:root $SBTS_SBIN"
     chmod 755 "$SBTS_SBIN" || abort "Can't chmod 755 $SBTS_SBIN"
 
-    # Re-mount scripts
-    gcc mount_readonly.c -o mount_readonly
-    gcc mount_readwrite.c -o mount_readwrite
-
-    # Move to /usr/local
-    mv mount_readonly "$SBTS_SBIN" || abort "Can't mv mount_readonly to $SBTS_SBIN"
-    mv mount_readwrite "$SBTS_SBIN" || abort "Can't mv mount_readwrite to $SBTS_SBIN"
-
-    # Set correct executable permissions
-    chmod 755 "$SBTS_SBIN/mount_readonly" "$SBTS_SBIN/mount_readwrite" || abort "Can't change permissions on $SBTS_SBIN/mount_readonly and $SBTS_SBIN/mount_readwrite"
-
-    # Set root setuid on re-mount commands
-    chown root:root "$SBTS_SBIN/mount_readonly" "$SBTS_SBIN/mount_readwrite" || abort "Can't change owner on $SBTS_SBIN/mount_readonly and $SBTS_SBIN/mount_readwrite"
-    chmod +s "$SBTS_SBIN/mount_readonly" "$SBTS_SBIN/mount_readwrite" || abort "Can't set +s on $SBTS_SBIN/mount_readonly and $SBTS_SBIN/mount_readwrite"
-
-    # Link to the local location
-
-    ln -s "$SBTS_SBIN/mount_readonly" "$SBTS_BIN/mount_readonly" || abort "Can't link $SBTS_SBIN/mount_readonly to $SBTS_BIN/mount_readonly"
-    ln -s "$SBTS_SBIN/mount_readwrite" "$SBTS_BIN/mount_readwrite" || abort "Can't link $SBTS_SBIN/mount_readwrite to $SBTS_BIN/mount_readwrite"
-
     # Set correct permissions and ownership on make* scripts
     chmod 755 "$SBTS_BIN/make_readonly.sh" || abort "Can't change permissions on $SBTS_BIN/make_readonly.sh"
     chown "$SUDO_USER:$SUDO_USER" "$SBTS_BIN" "$SBTS_BIN/make_readonly.sh"
-
-
-    # Now setup the configuration mounting
 }
 
 copy_system_disk_to_SSD() {
