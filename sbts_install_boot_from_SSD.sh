@@ -328,11 +328,6 @@ setup_sbts_bin() {
     ln "$SBTS_BIN/make_readonly.sh" "$SBTS_BIN/make_readwrite.sh" || abort "Can't link $SBTS_BIN/make_readonly.sh to $SBTS_BIN/make_readwrite.sh"
     ln "$SBTS_BIN/make_readonly.sh" "$SBTS_BIN/make_orig.sh" || abort "Can't link $SBTS_BIN/make_readonly.sh to $SBTS_BIN/make_orig.sh"
 
-    # Create sbts sbin directory for setuid re-mount code
-    [[ -d "$SBTS_SBIN" ]] || mkdir "$SBTS_SBIN" || abort "Can't create $SBTS_SBIN"
-    chown root:root "$SBTS_SBIN" || abort "Can't chown root:root $SBTS_SBIN"
-    chmod 755 "$SBTS_SBIN" || abort "Can't chmod 755 $SBTS_SBIN"
-
     # Set correct permissions and ownership on make* scripts
     chmod 755 "$SBTS_BIN/make_readonly.sh" || abort "Can't change permissions on $SBTS_BIN/make_readonly.sh"
     chown "$SUDO_USER:$SUDO_USER" "$SBTS_BIN" "$SBTS_BIN/make_readonly.sh"
