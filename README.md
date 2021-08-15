@@ -9,5 +9,5 @@ The system will wipe the SSD that you choose, create a partition the full size o
 the SD disk to the new partion and change the boot sequence.
 
 Once rebooted you will have booted from SSD. The approach taken here avoids the problem that existed
-at the time of writing whereby the Jetson Xavier AGX won't boot from SSD without addition steps involving
-some flashing.
+at the time of writing whereby the Jetson Xavier AGX won't boot from SSD without addition steps.
+
