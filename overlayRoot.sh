@@ -22,6 +22,11 @@ if [ "$found_init" != "/sbin/overlayRoot.sh" -a -z "$found_sbtsroot" ] ; then
 fi
 
 if [ "$found_init" != "/sbin/overlayRoot.sh" -a ! -z "$found_sbtsroot" ] ; then
+    if [ -d "/mnt/newroot" ] ; then
+        # Extra resilience
+        rmdir /mnt/newroot
+    fi
+
     mkdir /mnt/newroot || fail "Can't create /mnt/newroot"
 
     mount $found_sbtsroot /mnt/newroot || fail "Can't mount $found_sbtsroot on /mnt"
