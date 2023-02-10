@@ -15,7 +15,7 @@ fail(){
 # Find from the extlinux.conf file, /proc/cmdline is not always reliable
 found_root=$(perl -n -e 'print $1, "\n" if m%^\s*APPEND .*\broot=(\S+)%' /boot/extlinux/extlinux.conf)
 found_init=$(perl -n -e 'print $1, "\n" if m%^\s*APPEND .*\binit=(\S+)%' /boot/extlinux/extlinux.conf)
-found_sbtsroot=$(perl -n -e 'print $1, "\n" if m%^\s*APPEND .*\bsbtsroot=(\S+)%' /boot/extlinux/extlinux.conf)
+found_sbtsroot=$(perl -n -e 'print $1, "\n" if m%^\s*APPEND .*\bsbtsroot=(\S+)%' /boot/extlinux/extlinux.conf | head -n 1)
 
 if [ "$found_init" != "/sbin/overlayRoot.sh" -a -z "$found_sbtsroot" ] ; then
     exec /lib/systemd/systemd
@@ -29,6 +29,7 @@ fi
 if [ "$found_init" != "/sbin/overlayRoot.sh" -a ! -z "$found_sbtsroot" ] ; then
     mkdir /mnt/newroot || fail "Can't create /mnt/newroot"
 
+    modprobe ahci
     mount $found_sbtsroot /mnt/newroot || fail "Can't mount $found_sbtsroot on /mnt"
 
     cd /mnt/newroot || fail "Can't change to /mnt/newroot"
